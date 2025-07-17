@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+<body>
+    <h1>My Recipes Header</h1>
+
+    {% block content %}{% endblock %}
+
+    <nav>
+        <div>
+            <button class="blue-button" >Hello</button>
+            <a href="{% url 'home' %}" >Home</a>
+            <a href="{% url 'hello' %}" >Hello</a>
+            <a href="{% url 'about' %}" >About</a>
+        </div>
+    </nav>
+    <p>Website Footer</p>
+</body>
+</html>
