@@ -10,5 +10,7 @@ urlpatterns = [
     path('hello/', views.hello, name='hello'),
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+
+    path('books/', views.books_view, name='books'),
 ]
