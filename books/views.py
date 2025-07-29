@@ -76,6 +76,7 @@ def books_view(request: HttpRequest):
         # request.POST -> BookForm() -> Book() -> book.save()
         form_with_data = BookForm(request.POST)
         if form_with_data.is_valid():
+            # here we save our data in DB
             form_with_data.save()
             return HttpResponse("Book Saved Successfully!")
         else:
