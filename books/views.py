@@ -1,6 +1,6 @@
 import json
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from datetime import datetime
 from books.models import Book
@@ -8,6 +8,7 @@ from books.serializers import BookSerializer
 from books.forms import BookForm
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -66,6 +67,7 @@ def books_view_simple(request: HttpRequest):
         return HttpResponse("")
 
 @csrf_exempt
+@login_required
 def books_view(request: HttpRequest):
     if request.method == "GET":
         context = {
@@ -77,7 +79,10 @@ def books_view(request: HttpRequest):
         form_with_data = BookForm(request.POST)
         if form_with_data.is_valid():
             # here we save our data in DB
-            form_with_data.save()
-            return HttpResponse("Book Saved Successfully!")
+            # BookForm() -> Book() -> book.created_by = user
+            book_instance = form_with_data.save(commit=False)
+            book_instance.created_by = request.user
+            book_instance.save()
+            return redirect('books')
         else:
             return HttpResponse(form_with_data.errors)

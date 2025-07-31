@@ -17,6 +17,7 @@
             <a href="{% url 'about' %}" >About</a>
 
             {% if user.is_authenticated %}
+            <a href="{% url 'books'%}">Add Book</a>
                 <form action="{% url 'logout' %}" method="post" style="display: inline!important;" >
                     {% csrf_token %}
                     <button type="submit" style="
