@@ -13,4 +13,5 @@ urlpatterns = [
     path('api/', include(router.urls)),
 
     path('books/', views.books_view, name='books'),
+    path('users/<int:user_id>/books/', views.books_by_user, name="books_by_user")
 ]

@@ -12,7 +12,6 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-fruits = ['Apple', 'Pineapple', 'Durian', 'Passion fruit', 'Banana', 'Pear']
 
 def hello(request):
     return HttpResponse("Hello from our Books app!")
@@ -20,11 +19,14 @@ def hello(request):
 def home(request):
     # Django -> Jinja(Template Engine)
 
+    books = list(Book.objects.all())
+    books.sort(key = (lambda x: x.date_created), reverse=True)
+
     context = {
         'username': 'Alice',
         'logged_in': True,
         'current_time': datetime.now(),
-        'fruits': fruits
+        'books': books
     }
 
     return render(request, 'home.html', context)
@@ -47,6 +49,14 @@ class BookViewSet(viewsets.ModelViewSet):
 
 
 books_list = ["X Mockingbird", "C Eminem: Greatest Hits", "D Fahrenheit 471", "A Book 1"]
+
+def books_by_user(request: HttpRequest, user_id: int):
+    books = list(Book.objects.filter(created_by=user_id))
+    books.sort(key = (lambda x: x.date_created), reverse=True)
+    context = {
+        'books': books
+    }
+    return render(request, 'books.html', context)
 
 @csrf_exempt
 def books_view_simple(request: HttpRequest):
