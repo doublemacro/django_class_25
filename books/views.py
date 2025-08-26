@@ -86,7 +86,8 @@ def books_view(request: HttpRequest):
         return render(request, 'create_book.html', context)
     elif request.method == "POST":
         # request.POST -> BookForm() -> Book() -> book.save()
-        form_with_data = BookForm(request.POST)
+        # need to add request.FILES to from_with_data, to support image upload.
+        form_with_data = BookForm(request.POST, request.FILES)
         if form_with_data.is_valid():
             # here we save our data in DB
             # BookForm() -> Book() -> book.created_by = user

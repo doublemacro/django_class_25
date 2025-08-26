@@ -8,8 +8,6 @@
 <body>
     <h1>My Recipes Header</h1>
 
-    {% block content %}{% endblock %}
-
     <nav>
         <div>
             <a href="{% url 'home' %}" >Home</a>
@@ -38,6 +36,9 @@
             {% endif %}
         </div>
     </nav>
+
+    {% block content %}{% endblock %}
+
     <p>Website Footer</p>
 </body>
 </html>

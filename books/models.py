@@ -11,6 +11,7 @@ class Book(models.Model):
     page_count = models.IntegerField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='books')
     date_created = models.DateTimeField(default=timezone.now)
+    thumbnail_image = models.ImageField(upload_to='book_thumbnails/', blank=True, null=True)
 
     def __str__(self):
         return "{}, by author {}, pages {}".format(self.title, self.author, self.page_count)
