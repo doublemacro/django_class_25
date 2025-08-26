@@ -96,3 +96,6 @@ def books_view(request: HttpRequest):
             return redirect('books')
         else:
             return HttpResponse(form_with_data.errors)
+
+
+# https://github.com/search?q=django+app&type=repositories
