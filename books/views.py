@@ -105,22 +105,21 @@ def books_view(request: HttpRequest):
 @login_required()
 def update_book(request, pk):
     book = get_object_or_404(Book, pk=pk, created_by=request.user)
-    if request.method == "GET":
-        form = BookForm(instance=book)
-        return render(request, 'book_form.html', {'form': form, 'book': book})
-    elif request.method == "POST":
+    if request.method == "POST":
         form = BookForm(request.POST, request.FILES, instance=book)
         if form.is_valid():
             form.save()
             return redirect('home')
+    else:
+        form = BookForm(instance=book)
+        return render(request, 'book_form.html', {'form': form, 'book': book})
 
 # books/<int:pk>/delete
 @login_required()
 def delete_book(request, pk):
     book = get_object_or_404(Book, pk=pk, created_by=request.user)
-    if request.method == "GET":
-        return render(request, 'book_confirm_delete.html', {'book': book})
-    elif request.method == "POST":
+    if request.method == "POST":
         book.delete()
         return redirect('home')
-
+    else:
+        return render(request, 'book_confirm_delete.html', {'book': book})
