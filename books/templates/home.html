@@ -56,6 +56,9 @@
               <p>by {{ book.author }}</p>
               <p>{{ book.page_count }}</p>
               <p>added by: <a href="{% url 'books_by_user' user_id=book.created_by.id  %}" >{{ book.created_by }}</a></p>
+
+              <a href="{% url 'book_update' pk=book.pk %}" style="text-decoration: none;" >✍️</a>
+              <a href="{% url 'book_delete' pk=book.pk %}" style="text-decoration: none;" >🗑️</a>
           </div>
         {% endfor %}
       </div>

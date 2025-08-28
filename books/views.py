@@ -1,6 +1,6 @@
 import json
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpRequest
 from datetime import datetime
 from books.models import Book
@@ -9,6 +9,7 @@ from books.forms import BookForm
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -100,3 +101,26 @@ def books_view(request: HttpRequest):
 
 
 # https://github.com/search?q=django+app&type=repositories
+
+@login_required()
+def update_book(request, pk):
+    book = get_object_or_404(Book, pk=pk, created_by=request.user)
+    if request.method == "GET":
+        form = BookForm(instance=book)
+        return render(request, 'book_form.html', {'form': form, 'book': book})
+    elif request.method == "POST":
+        form = BookForm(request.POST, request.FILES, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+# books/<int:pk>/delete
+@login_required()
+def delete_book(request, pk):
+    book = get_object_or_404(Book, pk=pk, created_by=request.user)
+    if request.method == "GET":
+        return render(request, 'book_confirm_delete.html', {'book': book})
+    elif request.method == "POST":
+        book.delete()
+        return redirect('home')
+

@@ -13,5 +13,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
 
     path('books/', views.books_view, name='books'),
+    path('books/<int:pk>/delete/', views.delete_book, name='book_delete'),
+    path('books/<int:pk>/edit/', views.update_book, name='book_update'),
     path('users/<int:user_id>/books/', views.books_by_user, name="books_by_user")
 ]
